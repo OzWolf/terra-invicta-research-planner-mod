@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Nullable>enable</Nullable>
+		<Configurations>Steam</Configurations>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Steam|AnyCPU'">
+		<IsPublishable>False</IsPublishable>
+	</PropertyGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Copy SourceFiles="$(OutputPath)ResearchPlanner.dll" DestinationFolder="$(TerraInvictaInstallPath)\Mods\Enabled\Research Planner" />
+		<Copy SourceFiles="$(OutputPath)ModKit.dll" DestinationFolder="$(TerraInvictaInstallPath)\Mods\Enabled\Research Planner" />
+		<Copy SourceFiles="$(OutputPath)research_planner" DestinationFolder="$(TerraInvictaInstallPath)\Mods\Enabled\Research Planner" />
+		<Copy SourceFiles="$(OutputPath)research_planner.manifest" DestinationFolder="$(TerraInvictaInstallPath)\Mods\Enabled\Research Planner" />
+	</Target>
+	<ItemGroup>
+		<PackageReference Include="ModKit" Version="1.0.8" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="0Harmony">
+			<HintPath>$(TerraInvictaInstallPath)\TerraInvicta_Data\Managed\UnityModManager\0Harmony.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>$(TerraInvictaInstallPath)\TerraInvicta_Data\Managed\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass">
+			<HintPath>$(TerraInvictaInstallPath)\TerraInvicta_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>$(TerraInvictaInstallPath)\TerraInvicta_Data\Managed\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>$(TerraInvictaInstallPath)\TerraInvicta_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.IMGUIModule">
+			<HintPath>$(TerraInvictaInstallPath)\TerraInvicta_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TextRenderingModule">
+			<HintPath>$(TerraInvictaInstallPath)\TerraInvicta_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityModManager">
+			<HintPath>$(TerraInvictaInstallPath)\TerraInvicta_Data\Managed\UnityModManager\UnityModManager.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="research_planner">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="research_planner.manifest">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>
