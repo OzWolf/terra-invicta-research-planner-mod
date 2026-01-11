@@ -6,7 +6,7 @@
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Steam|AnyCPU'">
-		<IsPublishable>False</IsPublishable>
+	  <IsPublishable>False</IsPublishable>
 	</PropertyGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Copy SourceFiles="$(OutputPath)ResearchPlanner.dll" DestinationFolder="$(TerraInvictaInstallPath)\Mods\Enabled\Research Planner" />

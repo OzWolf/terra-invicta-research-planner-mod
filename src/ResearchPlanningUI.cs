@@ -207,7 +207,8 @@ namespace ResearchPlanner
                 {
                     using (UI.HorizontalScope())
                     {
-                        UIElements.IconLabel(item.displayName.ToUpper().bold().orange(), UIImages.TechCategoryIcon(item.techCategory), 720);
+                        UIElements.IconLabel(item.displayName.ToUpper().bold().orange(),
+                            UIImages.TechCategoryIcon(item.techCategory), 720);
                         UI.Space(720);
                         UIElements.IconActionButton(UIImages.XIcon, () => OnStopTrackingProject(item), 32);
                     }
@@ -252,47 +253,18 @@ namespace ResearchPlanner
             {
                 UI.Space(spaces);
 
-                UIElements.IconLabel(child.displayName.ToUpper().bold(), UIImages.TechCategoryIcon(child.techCategory), labelWidth);
+                UIElements.IconLabel(child.displayName.ToUpper().bold(), UIImages.TechCategoryIcon(child.techCategory),
+                    labelWidth);
                 UI.Space(10);
                 UIElements.Icon(child.isProject() ? UIImages.ProjectIcon : UIImages.TechIcon, 32);
                 UI.Space(118);
                 UIElements.Icon(unlockedGlyph);
                 UI.Space(5);
                 UIElements.Label(unlockChanceText, 105);
-                
-                if (child.isProject() && unlocked && !researching)
-                {
-                    UI.Space(10);
-                    if (Faction!.ProjectAllowedInSlot(3))
-                        UIElements.IconTextActionButton("Slot 1", UIImages.ProjectIcon, () => StartResearchingProject(child, 3));
-                    else
-                        UIElements.Label(" ");
-                    
-                    UI.Space(10);
-                
-                    if (Faction.ProjectAllowedInSlot(4))
-                        UIElements.IconTextActionButton("Slot 2", UIImages.ProjectIcon, () => StartResearchingProject(child, 4));
-                    else
-                        UIElements.Label(" ");
-                
-                    UI.Space(10);
-                
-                    if (Faction.ProjectAllowedInSlot(5))
-                        UIElements.IconTextActionButton("Slot 3", UIImages.ProjectIcon, () => StartResearchingProject(child, 5));
-                    else
-                        UIElements.Label(" ");
-                }
 
-                if (child.isGlobalTech() && unlocked && !researching)
-                {
-                    var slot = ResearchPlannerUtils.GetOpenGlobalTechSlotFor(Faction!);
+                if (child.isProject() && unlocked && !researching) DrawProjectOptions(child);
 
-                    if (slot>= 0)
-                    {
-                        UI.Space(460);
-                        UIElements.IconTextActionButton("Research", UIImages.TechIcon, () => StartResearchGlobalTech(child, slot));
-                    }
-                }
+                if (child.isGlobalTech() && unlocked && !researching) DrawGlobalTechOptions(child);
             }
 
             UI.Space(15);
@@ -300,12 +272,54 @@ namespace ResearchPlanner
             foreach (var p in child.TechPrereqs) DrawChildren(p, level + 1);
         }
 
+        private static void DrawProjectOptions(TIGenericTechTemplate child)
+        {
+            UI.Space(10);
+            var freeSlot = ResearchPlannerUtils.GetOpenProjectSlotFor(Faction!);
+            if (freeSlot > 0)
+            {
+                UI.Space(460);
+                UIElements.IconTextActionButton("Research", UIImages.ProjectIcon, () => StartResearchingProject(child, freeSlot));
+                return;
+            }
+
+            if (Faction!.ProjectAllowedInSlot(3))
+                UIElements.IconTextActionButton("Slot 1", UIImages.ProjectIcon, () => StartResearchingProject(child, 3));
+            else
+                UIElements.Label(" ");
+
+            UI.Space(10);
+
+            if (Faction.ProjectAllowedInSlot(4))
+                UIElements.IconTextActionButton("Slot 2", UIImages.ProjectIcon, () => StartResearchingProject(child, 4));
+            else
+                UIElements.Label(" ");
+
+            UI.Space(10);
+
+            if (Faction.ProjectAllowedInSlot(5))
+                UIElements.IconTextActionButton("Slot 3", UIImages.ProjectIcon, () => StartResearchingProject(child, 5));
+            else
+                UIElements.Label(" ");
+        }
+
+        private static void DrawGlobalTechOptions(TIGenericTechTemplate child)
+        {
+            var slot = ResearchPlannerUtils.GetOpenGlobalTechSlotFor(Faction!);
+
+            if (slot < 0) return;
+
+            UI.Space(460);
+            UIElements.IconTextActionButton("Research", UIImages.TechIcon, () => StartResearchGlobalTech(child, slot));
+        }
+
         private static void StartResearchingProject(TIGenericTechTemplate project, int slot)
         {
             if (!project.isProject()) return;
 
-            var p = (TIProjectTemplate) project;
+            var p = (TIProjectTemplate)project;
             Faction!.SetProjectInSlot(slot, p);
+            TIPromptQueueState.RemovePromptStatic(Faction, Faction, null, "PromptSelectProject", slot);
         }
 
         private static void StartResearchGlobalTech(TIGenericTechTemplate tech, int slot)

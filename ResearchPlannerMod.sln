@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResearchPlanner", "ResearchPlanner.csproj", "{92ABCE5A-6E82-465B-815A-865814D78F15}"
 EndProject
@@ -9,12 +9,13 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Steam|Any CPU = Steam|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{92ABCE5A-6E82-465B-815A-865814D78F15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92ABCE5A-6E82-465B-815A-865814D78F15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92ABCE5A-6E82-465B-815A-865814D78F15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92ABCE5A-6E82-465B-815A-865814D78F15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92ABCE5A-6E82-465B-815A-865814D78F15}.Debug|Any CPU.ActiveCfg = Steam|Any CPU
+		{92ABCE5A-6E82-465B-815A-865814D78F15}.Release|Any CPU.ActiveCfg = Steam|Any CPU
+		{92ABCE5A-6E82-465B-815A-865814D78F15}.Steam|Any CPU.ActiveCfg = Steam|Any CPU
+		{92ABCE5A-6E82-465B-815A-865814D78F15}.Steam|Any CPU.Build.0 = Steam|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

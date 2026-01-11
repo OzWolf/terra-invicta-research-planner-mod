@@ -78,7 +78,14 @@ namespace ResearchPlanner
         {
             var project = Faction!.GetProjectInSlot(slot);
             if (project == null)
+            {
                 UIElements.Label("", 400);
+                return;
+            }
+
+            var progress = Faction.GetProjectProgressInSlot(slot);
+            if (progress.completed)
+                UIElements.Label("VACANT", 400);
             else
                 UIElements.IconLabel(project.displayName.ToUpper(), UIImages.TechCategoryIcon(project.techCategory), 400);
         }
